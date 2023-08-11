@@ -14,6 +14,8 @@ public class ResponseBehaviour : MonoBehaviour
     [SerializeField]
     private AudioSource audioSource;
     public TextAsset awsSecret;
+
+    public AnimationBehaviour animationBehaviour;
     void Start()
     {
         string text = awsSecret.text;
@@ -21,6 +23,9 @@ public class ResponseBehaviour : MonoBehaviour
 
     public async void Response(string chatGPTResponse)
     {
+        // Start the talking animation.
+        animationBehaviour.ToggleTalkingAnimation();
+
         // Get a key using another account, not root.
         var credentials = new BasicAWSCredentials(accessKey: "AKIA6RPUV6MB6ZNKUP2U", secretKey: awsSecret.text);
         var client = new AmazonPollyClient(credentials, Amazon.RegionEndpoint.USEast1);
@@ -29,7 +34,7 @@ public class ResponseBehaviour : MonoBehaviour
         {
             Text = chatGPTResponse,
             Engine = Engine.Neural,
-            VoiceId = VoiceId.Aria,
+            VoiceId = VoiceId.Ruth,
             OutputFormat = OutputFormat.Mp3
         };
 
@@ -50,6 +55,9 @@ public class ResponseBehaviour : MonoBehaviour
 
             audioSource.clip = clip;
             audioSource.Play();
+
+            // Stop the talking animation.
+            StartCoroutine(ToggleAnimation());
         }
     }
 
@@ -65,5 +73,13 @@ public class ResponseBehaviour : MonoBehaviour
                 fileStream.Write(buffer, offset: 0, count: bytesRead);
             }
         }
+    }
+
+    private IEnumerator ToggleAnimation()
+    {
+        // Wait until the clip is finished.
+        yield return new WaitForSeconds(audioSource.clip.length);
+        // Stop the talking animation.
+        animationBehaviour.ToggleTalkingAnimation();
     }
 }
