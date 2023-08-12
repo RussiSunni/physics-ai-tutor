@@ -4,23 +4,21 @@ using UnityEngine;
 
 public class AnimationBehaviour : MonoBehaviour
 {
-    Animator animator;
+    Animator animator;  
+
+    public string animationString;
     void Start()
     {
         animator = GetComponent<Animator>();
     }
 
-    public void ToggleTalkingAnimation()
+    public void TalkingAnimation()
     {
-        if (animator.GetBool("isTalking") == false)
-            animator.SetBool("isTalking", true);
-        else {
-            animator.SetBool("isTalking", false);
-        }
+        animator.SetBool("isTalking", true);
+    }  
+
+    public void IdleAnimation()
+    {
+        animator.SetBool("isTalking", false);        
     }
-
-    public void ToggleNoAnimation()
-    {
-
-    }   
 }

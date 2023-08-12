@@ -17,10 +17,11 @@ public class ChatGPTManager : MonoBehaviour
     public TMP_Text answerText;
 
     [SerializeField]
-    private ResponseBehaviour responseScript;
-   
+    private ResponseBehaviour responseScript; 
+
     void Start()
-    {         
+    {
+      
     }  
     IEnumerator CallChatGPT(string userSpeech)
     { 
@@ -71,10 +72,11 @@ public class ChatGPTManager : MonoBehaviour
 
     public void AskQuestion()
     {
-        // Receive question.         
-        StartCoroutine(CallChatGPT(questionText.text));
+        // Receive question.     
+        StartCoroutine(CallChatGPT(questionText.text));        
     }
 
+   
     // Chat Completions.
     // Creating classes to send the POST request to the OpenAI API.
     [System.Serializable]

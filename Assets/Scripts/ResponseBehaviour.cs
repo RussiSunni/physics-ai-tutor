@@ -22,10 +22,7 @@ public class ResponseBehaviour : MonoBehaviour
     }
 
     public async void Response(string chatGPTResponse)
-    {
-        // Start the talking animation.
-        animationBehaviour.ToggleTalkingAnimation();
-
+    {      
         // Get a key using another account, not root.
         var credentials = new BasicAWSCredentials(accessKey: "AKIA6RPUV6MB6ZNKUP2U", secretKey: awsSecret.text);
         var client = new AmazonPollyClient(credentials, Amazon.RegionEndpoint.USEast1);
@@ -53,11 +50,14 @@ public class ResponseBehaviour : MonoBehaviour
 
             var clip = DownloadHandlerAudioClip.GetContent(www);
 
+            // Start the talking animation.
+            animationBehaviour.TalkingAnimation();
+
             audioSource.clip = clip;
             audioSource.Play();
 
             // Stop the talking animation.
-            StartCoroutine(ToggleAnimation());
+            StartCoroutine(IdleAnimation());
         }
     }
 
@@ -75,11 +75,11 @@ public class ResponseBehaviour : MonoBehaviour
         }
     }
 
-    private IEnumerator ToggleAnimation()
+    private IEnumerator IdleAnimation()
     {
         // Wait until the clip is finished.
         yield return new WaitForSeconds(audioSource.clip.length);
         // Stop the talking animation.
-        animationBehaviour.ToggleTalkingAnimation();
+        animationBehaviour.IdleAnimation();
     }
 }
