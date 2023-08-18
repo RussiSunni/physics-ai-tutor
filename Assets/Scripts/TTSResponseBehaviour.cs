@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 
-public class ResponseBehaviour : MonoBehaviour
+public class TTSResponseBehaviour : MonoBehaviour
 {
     [SerializeField]
     private AudioSource audioSource;
